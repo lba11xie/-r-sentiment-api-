@@ -1,13 +1,22 @@
 library(plumber)
-library(syuzhet)
+
+#* @apiTitle Sentiment Analysis API
 
 #* @post /sentiment
-#* @param text The text for sentiment analysis
+#* @param text The text to analyze
 #* @serializer json
-function(text) {
+function(text = "") {
+  library(syuzhet)
   sentiment <- get_nrc_sentiment(text)
-  return(sentiment)
+  list(sentiment = sentiment)
 }
 
-r <- plumb("api.R")
-r$run(host = "0.0.0.0", port = as.numeric(Sys.getenv("PORT", 8000)))
+# Start the Plumber API
+pr <- plumber::plumb("api.R")  # Make sure this file exists
+pr$run(host = "0.0.0.0", port = 8000) 
+
+
+
+git add api.R
+git commit -m "Fixed api.R syntax error"
+git push origin main
